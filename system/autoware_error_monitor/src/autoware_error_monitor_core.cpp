@@ -42,7 +42,7 @@ AutowareErrorMonitor::AutowareErrorMonitor()
   // Timer
   auto timer_callback = std::bind(&AutowareErrorMonitor::onTimer, this);
   auto period = std::chrono::duration_cast<std::chrono::nanoseconds>(
-    std::chrono::duration<double>(update_rate_));
+    std::chrono::duration<double>(1.0 / update_rate_));
 
   timer_ = std::make_shared<rclcpp::GenericTimer<decltype(timer_callback)>>(
     this->get_clock(), period, std::move(timer_callback),
@@ -98,20 +98,25 @@ void AutowareErrorMonitor::onTimer()
 
 bool AutowareErrorMonitor::judgeCapability(const std::string & key)
 {
+  std::cerr << __LINE__ << std::endl;
   for (const std::string & required_condition : required_conditions_map_.at(key)) {
     const auto diag_name = fmt::format("/{}", required_condition);
+    std::cerr << diag_name << std::endl;
     const auto & latest_diag = getLatestDiag(diag_name);
 
     if (!latest_diag) {
+      std::cerr << __LINE__ << std::endl;
       return false;
     }
 
     if (latest_diag->status.level != diagnostic_msgs::msg::DiagnosticStatus::OK) {
+      std::cerr << __LINE__ << std::endl;
       return false;
     }
 
     const auto time_diff = rclcpp::Node::now() - latest_diag->header.stamp;
     if (time_diff.seconds() > diag_timeout_sec_) {
+      std::cerr << __LINE__ << std::endl;
       return false;
     }
   }
