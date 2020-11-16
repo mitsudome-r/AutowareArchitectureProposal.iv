@@ -54,9 +54,10 @@ std::set<int64_t> getLaneIdSetOnPath(const autoware_planning_msgs::msg::PathWith
 
 }  // namespace
 
-IntersectionModuleManager::IntersectionModuleManager(rclcpp::Node & node)
+IntersectionModuleManager::IntersectionModuleManager(rclcpp::Node & node, const std::shared_ptr<PlannerData> & planner_data)
 : SceneModuleManagerInterface(node, getModuleName())
 {
+  planner_data_ = planner_data;
   const std::string ns(getModuleName());
   auto & p = planner_param_;
   p.state_transit_mergin_time = node.declare_parameter(ns + "/state_transit_mergin_time", 2.0);

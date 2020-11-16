@@ -110,7 +110,7 @@ BehaviorVelocityPlannerNode::BehaviorVelocityPlannerNode()
   if (this->declare_parameter("launch_traffic_light", true))
     planner_manager_.launchSceneModule(std::make_shared<TrafficLightModuleManager>(*this));
   if (this->declare_parameter("launch_intersection", true))
-    planner_manager_.launchSceneModule(std::make_shared<IntersectionModuleManager>(*this));
+    planner_manager_.launchSceneModule(std::make_shared<IntersectionModuleManager>(*this, std::make_shared<PlannerData>(planner_data_)));
   if (this->declare_parameter("launch_blind_spot", true))
     planner_manager_.launchSceneModule(std::make_shared<BlindSpotModuleManager>(*this));
   if (this->declare_parameter("launch_detection_area", true))

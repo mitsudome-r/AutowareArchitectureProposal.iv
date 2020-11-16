@@ -28,7 +28,7 @@
 class IntersectionModuleManager : public SceneModuleManagerInterface
 {
 public:
-  IntersectionModuleManager(rclcpp::Node & node);
+  IntersectionModuleManager(rclcpp::Node & node, const std::shared_ptr<PlannerData> & planner_data);
 
   const char * getModuleName() override { return "intersection"; }
 
