@@ -230,7 +230,7 @@ void MapBasedPredictionROS::objectsCallback(
     debug_map2lidar_transform = tf_buffer_ptr_->lookupTransform(
       "base_link",  // target
       "map",        // src
-      rclcpp::Time(), rclcpp::Duration::from_seconds(0.1));
+      rclcpp::Time());
   } catch (tf2::TransformException & ex) {
     return;
   }
